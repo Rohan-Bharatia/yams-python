@@ -1,0 +1,5 @@
+---
+
+classes:
+  yams::telemetry::SwerveDriveTelemetryConfig:
+    ignore: true

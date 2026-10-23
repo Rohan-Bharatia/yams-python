@@ -1,0 +1,17 @@
+---
+
+classes:
+  yams::mechanisms::config::SwerveModuleConfig:
+    ignore: true
+    methods:
+      SwerveModuleConfig:
+      withAbsoluteEncoder:
+      withAngleMotor:
+      withDriveMotor:
+      withEncoderOffset:
+      withLocation:
+      withModuleId:
+      withModuleLocation:
+      withName:
+      withTelemetry:
+      generate:

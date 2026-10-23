@@ -1,0 +1,25 @@
+extra_includes:
+  - yams/motorcontrollers/simulation/Sensor.hpp
+classes:
+  yams::mechanisms::config::SimSensorConfig:
+    methods:
+      SimSensorConfig:
+      WithField:
+        overloads:
+          const std::string&, std::function<double ()>, double:
+          const std::string&, std::function<int ()>, int:
+          const std::string&, std::function<bool ()>, bool:
+          const std::string&, std::function<int64_t ()>, int64_t:
+      WithSimulatedValue:
+        overloads:
+          const std::string&, wpi::units::second_t, wpi::units::second_t, double:
+          const std::string&, wpi::units::second_t, wpi::units::second_t, int:
+          const std::string&, wpi::units::second_t, wpi::units::second_t, int64_t:
+          const std::string&, wpi::units::second_t, wpi::units::second_t, bool:
+          const std::string&, std::function<bool ()>, double:
+          const std::string&, std::function<bool ()>, int:
+          const std::string&, std::function<bool ()>, int64_t:
+          const std::string&, std::function<bool ()>, bool:
+      GetSensor:
+      GetName:
+      GetFields:

@@ -1,0 +1,14 @@
+---
+
+classes:
+  yams::telemetry::SwerveDriveTelemetry:
+    ignore: true
+    methods:
+      SwerveDriveTelemetry:
+      SetupTelemetry:
+        ignore: true
+      Publish:
+        ignore: true
+      Periodic:
+      Flush:
+      AddDashboardWidgets:

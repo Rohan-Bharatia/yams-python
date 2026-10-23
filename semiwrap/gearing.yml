@@ -1,0 +1,47 @@
+extra_includes:
+  - pybind11/stl.h
+  - stdexcept
+  - vector
+
+classes:
+  yams::gearing::GearBox:
+    methods:
+      GearBox:
+        overloads:
+          double:
+          std::initializer_list<double>:
+            ignore: true
+          const std::vector<double>&:
+          const std::vector<std::string>&:
+      FromReductionStages:
+        cpp_code: |
+          [](const std::vector<double>& stages) {
+            return yams::gearing::GearBox(stages);
+          }
+      FromStages:
+        cpp_code: |
+          [](const std::vector<std::string>& stages) {
+            return yams::gearing::GearBox(stages);
+          }
+      FromTeeth:
+        cpp_code: |
+          [](const std::vector<int>& teeth) {
+            if (teeth.size() < 2) {
+              throw std::invalid_argument("At least two gears (drive and driven) are required");
+            }
+            double ratio = 1.0;
+            int prev = teeth[0];
+            for (std::size_t i = 1; i < teeth.size(); ++i) {
+              int curr = teeth[i];
+              if (prev <= 0 || curr <= 0) {
+                throw std::invalid_argument("Gear teeth counts must be positive integers");
+              }
+              ratio *= static_cast<double>(curr) / static_cast<double>(prev);
+              prev = curr;
+            }
+            return yams::gearing::GearBox(ratio);
+          }
+      Times:
+      Div:
+      GetInputToOutputConversionFactor:
+      GetOutputToInputConversionFactor:

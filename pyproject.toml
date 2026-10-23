@@ -1,0 +1,175 @@
+[build-system]
+requires = [
+    "semiwrap==0.7.2",
+    "hatch-meson>=0.1.3",
+    "hatchling>=1.27",
+    "patchelf>=0.17; sys_platform == 'linux'",
+    "pybind11",
+    "pybind11-stubgen>=2.5",
+]
+build-backend = "hatchling.build"
+
+[project]
+name = "yams"
+version = "0.1.0"
+description = "Python bindings for YAMS (Yet Another Mechanism System)"
+readme = "README.md"
+requires-python = ">=3.12"
+license = "LGPL-3.0-or-later"
+license-files = ["LICENSE", "THIRD_PARTY_NOTICES.md"]
+authors = [{ name = "YAMS Python contributors" }]
+keywords = ["robotics", "frc", "wpilib", "yams", "mechanism"]
+classifiers = [
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
+    "Intended Audience :: Science/Research",
+    "Operating System :: POSIX :: Linux",
+    "Operating System :: MacOS :: MacOS X",
+    "Operating System :: Microsoft :: Windows",
+    "Programming Language :: C++",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Programming Language :: Python :: 3.13",
+    "Programming Language :: Python :: 3.14",
+    "Topic :: Scientific/Engineering",
+]
+dependencies = []
+
+[project.urls]
+Homepage = "https://github.com/Rohan-Bharatia/yams-python"
+Source = "https://github.com/Rohan-Bharatia/yams-python"
+
+[project.optional-dependencies]
+test = ["pytest>=8"]
+
+#
+# Build hooks
+#
+# The order matters:
+#   1. "custom"    -> downloads/extracts the WPILib native dependencies
+#   2. "semiwrap"  -> generates the meson build files and the pybind11 wrappers
+#   3. "meson"     -> compiles the extension module
+#
+
+[tool.hatch.build.hooks.custom]
+path = "hatch_build.py"
+
+[tool.hatch.build.hooks.semiwrap]
+
+[tool.hatch.build.hooks.meson]
+# The extension module and the bundled WPILib shared libraries are installed
+# into the "platlib" directory of the wheel.
+args = { setup = [], compile = [], install = [] }
+
+[tool.hatch.build.targets.wheel]
+packages = ["yams"]
+# The extension module is installed by meson and copied into the package by
+# hatch-meson; it must not be picked up twice by the package file walk.
+exclude = ["*.so"]
+
+[tool.hatch.build.targets.sdist]
+include = [
+    "/yams",
+    "/cpp",
+    "/semiwrap",
+    "/tools",
+    "/tests",
+    "/docs",
+    "/examples",
+    "/vendor",
+    "/meson.build",
+    "/hatch_build.py",
+    "/README.md",
+    "/LICENSE",
+    "/THIRD_PARTY_NOTICES.md",
+]
+
+#
+# Semiwrap configuration
+#
+
+[tool.semiwrap]
+update_init = ["yams yams._yams"]
+name_transform = "snake_case"
+
+[tool.semiwrap.extension_modules."yams._yams"]
+name = "yams"
+includes = ["vendor/YAMS/yams/cpp/include", "cpp/include", "native/include"]
+depends = ["yams_units"]
+
+[tool.semiwrap.extension_modules."yams._yams".headers]
+exceptions = "yams/exceptions.hpp"
+gearing = "yams/gearing/GearBox.hpp"
+mechanism_gearing = "yams/gearing/MechanismGearing.hpp"
+sprocket = "yams/gearing/Sprocket.hpp"
+smart_math = "yams/math/SmartMath.hpp"
+lqr_config = "yams/math/LQRConfig.hpp"
+lqr_controller = "yams/math/LQRController.hpp"
+derivative_time_filter = "yams/math/DerivativeTimeFilter.hpp"
+y_units = "yams/units/YUnits.hpp"
+easy_crt = "yams/units/EasyCRT.hpp"
+smc_config = "yams/motorcontrollers/SmartMotorControllerConfig.hpp"
+smc = "yams/motorcontrollers/SmartMotorController.hpp"
+sim_supplier = "yams/motorcontrollers/SimSupplier.hpp"
+dcmotor_sim_supplier = "yams/motorcontrollers/simulation/DCMotorSimSupplier.hpp"
+arm_sim_supplier = "yams/motorcontrollers/simulation/ArmSimSupplier.hpp"
+elevator_sim_supplier = "yams/motorcontrollers/simulation/ElevatorSimSupplier.hpp"
+arm_config = "yams/mechanisms/config/ArmConfig.hpp"
+elevator_config = "yams/mechanisms/config/ElevatorConfig.hpp"
+pivot_config = "yams/mechanisms/config/PivotConfig.hpp"
+flywheel_config = "yams/mechanisms/config/FlyWheelConfig.hpp"
+mechanism_position_config = "yams/mechanisms/config/MechanismPositionConfig.hpp"
+gyro_axis = "yams/mechanisms/config/GyroAxis.hpp"
+sim_sensor_config = "yams/mechanisms/config/SimSensorConfig.hpp"
+smart_mechanism = "yams/mechanisms/SmartMechanism.hpp"
+arm = "yams/mechanisms/positional/Arm.hpp"
+elevator = "yams/mechanisms/positional/Elevator.hpp"
+pivot = "yams/mechanisms/positional/Pivot.hpp"
+smart_positional_mechanism = "yams/mechanisms/positional/SmartPositionalMechanism.hpp"
+flywheel = "yams/mechanisms/velocity/FlyWheel.hpp"
+smart_velocity_mechanism = "yams/mechanisms/velocity/SmartVelocityMechanism.hpp"
+smc_telemetry_config = "yams/telemetry/SmartMotorControllerTelemetryConfig.hpp"
+smc_telemetry = "yams/telemetry/SmartMotorControllerTelemetry.hpp"
+mechanism_telemetry = "yams/telemetry/MechanismTelemetry.hpp"
+swerve_module_config = "yams/mechanisms/config/SwerveModuleConfig.hpp"
+swerve_module = "yams/mechanisms/swerve/SwerveModule.hpp"
+swerve_drive = "yams/mechanisms/swerve/SwerveDrive.hpp"
+# swerve_input_stream - may not be present in all versions
+swerve_drive_telemetry = "yams/telemetry/SwerveDriveTelemetry.hpp"
+swerve_module_telemetry = "yams/telemetry/SwerveModuleTelemetry.hpp"
+swerve_drive_telemetry_config = "yams/telemetry/SwerveDriveTelemetryConfig.hpp"
+swerve_module_telemetry_config = "yams/telemetry/SwerveModuleTelemetryConfig.hpp"
+sim_motor_controller = "yams/python/SimMotorController.hpp"
+
+#
+# Custom type casters exported by this project
+#
+
+[tool.semiwrap.export_type_casters.yams_units]
+pypackage = "yams"
+includedir = ["cpp/include"]
+
+[[tool.semiwrap.export_type_casters.yams_units.headers]]
+header = "yams/type_casters/units.hpp"
+types = [
+    "wpi::units::turn_t",
+    "wpi::units::radian_t",
+    "wpi::units::degree_t",
+    "wpi::units::meter_t",
+    "wpi::units::second_t",
+    "wpi::units::millisecond_t",
+    "wpi::units::volt_t",
+    "wpi::units::ampere_t",
+    "wpi::units::celsius_t",
+    "wpi::units::newton_t",
+    "wpi::units::turns_per_second_t",
+    "wpi::units::meters_per_second_t",
+    "wpi::units::turns_per_second_squared_t",
+    "wpi::units::meters_per_second_squared_t",
+    "wpi::units::angular_jerk::turns_per_second_cubed_t",
+    "wpi::units::radians_per_second_t",
+    "wpi::units::degrees_per_second_t",
+]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]

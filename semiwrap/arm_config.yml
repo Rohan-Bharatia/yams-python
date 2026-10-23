@@ -1,0 +1,16 @@
+classes:
+  yams::mechanisms::config::ArmConfig:
+    methods:
+      ArmConfig:
+      WithTelemetryName:
+      WithMinAngle:
+      WithMaxAngle:
+      WithArmLength:
+      WithSimColor:
+      WithMechanismPositionConfig:
+      GetTelemetryName:
+      GetMinAngle:
+      GetMaxAngle:
+      GetArmLength:
+      GetSimColor:
+      GetMechanismPositionConfig:

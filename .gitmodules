@@ -1,0 +1,6 @@
+[submodule "vendor/YAMS"]
+	path = vendor/YAMS
+	url = https://github.com/Yet-Another-Software-Suite/YAMS.git
+[submodule "vendor/semiwrap"]
+	path = vendor/semiwrap
+	url = https://github.com/robotpy/semiwrap.git

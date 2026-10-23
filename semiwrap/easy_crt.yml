@@ -1,0 +1,9 @@
+classes:
+  yams::units::EasyCRT:
+    methods:
+      EasyCRT:
+      Solve:
+        overloads:
+          wpi::units::turn_t, wpi::units::turn_t [const]:
+          wpi::units::turn_t, wpi::units::turn_t, wpi::units::turn_t, wpi::units::turn_t [const]:
+      GetUniqueRange:

@@ -1,0 +1,5 @@
+extra_includes:
+  - yams/motorcontrollers/SmartMotorController.hpp
+classes:
+  yams::telemetry::SmartMotorControllerTelemetryConfig:
+    ignore: true

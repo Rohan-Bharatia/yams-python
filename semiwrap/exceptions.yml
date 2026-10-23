@@ -1,0 +1,23 @@
+classes:
+  yams::exceptions::YamsException:
+    ignore: true
+  yams::exceptions::ArmConfigurationException:
+    ignore: true
+  yams::exceptions::SwerveDriveConfigurationException:
+    ignore: true
+  yams::exceptions::SmartMotorControllerConfigurationException:
+    ignore: true
+  yams::exceptions::PivotConfigurationException:
+    ignore: true
+  yams::exceptions::NoStagesGivenException:
+    ignore: true
+  yams::exceptions::InvalidStageGivenException:
+    ignore: true
+  yams::exceptions::ElevatorConfigurationException:
+    ignore: true
+  yams::mechanism::SwerveDriveConfig:
+    ignore: true
+  yams::telemetry::SwerveDriveTelemetryConfig:
+    ignore: true
+  yams::telemetry::SwerveModuleTelemetryConfig:
+    ignore: true

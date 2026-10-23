@@ -1,0 +1,16 @@
+extra_includes:
+  - yams/motorcontrollers/SmartMotorController.hpp
+classes:
+  yams::mechanisms::velocity::SmartVelocityMechanism:
+    base_qualnames:
+      SmartMechanism: yams::mechanisms::SmartMechanism
+    attributes:
+      m_mechanismRoot:
+      m_mechanismLigament:
+    methods:
+      SmartVelocityMechanism:
+      Max:
+      Min:
+      GetMechanismLigament:
+      GetMechanismRoot:
+      GetMotor:

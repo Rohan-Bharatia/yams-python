@@ -1,0 +1,28 @@
+extra_includes:
+  - yams/motorcontrollers/SmartMotorController.hpp
+classes:
+  yams::mechanisms::positional::Pivot:
+    methods:
+      Pivot:
+      SimIterate:
+      UpdateTelemetry:
+      VisualizationUpdate:
+      GetName:
+      Max:
+      Min:
+      Run:
+        overloads:
+          wpi::units::degree_t:
+          std::function<wpi::units::degree_t ()>:
+      RunTo:
+        overloads:
+          wpi::units::degree_t, wpi::units::degree_t:
+          std::function<wpi::units::degree_t ()>, wpi::units::degree_t:
+      GetAngle:
+      Gte:
+      Lte:
+      Between:
+      IsNear:
+      GetConfig:
+      GetPose3d:
+      SetAngle:

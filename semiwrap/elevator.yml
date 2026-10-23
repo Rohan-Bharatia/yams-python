@@ -1,0 +1,30 @@
+extra_includes:
+  - yams/motorcontrollers/SmartMotorController.hpp
+classes:
+  yams::mechanisms::positional::Elevator:
+    methods:
+      Elevator:
+      SimIterate:
+      UpdateTelemetry:
+      VisualizationUpdate:
+      GetName:
+      Max:
+      Min:
+      Run:
+        overloads:
+          wpi::units::meter_t:
+          std::function<wpi::units::meter_t ()>:
+      RunTo:
+        overloads:
+          wpi::units::meter_t, wpi::units::meter_t:
+          std::function<wpi::units::meter_t ()>, wpi::units::meter_t:
+      GetHeight:
+      Gte:
+      Lte:
+      Between:
+      IsNear:
+      GetConfig:
+      GetPose3d:
+      GetCascadePose3d:
+      GetContinuousPose3d:
+      SetHeight:

@@ -1,0 +1,220 @@
+extra_includes:
+  - yams/motorcontrollers/SmartMotorController.hpp
+classes:
+  yams::motorcontrollers::SmartMotorControllerConfig:
+    enums:
+      ControlMode:
+      MotorMode:
+      TelemetryVerbosity:
+      ClosedLoopControllerSlot:
+    methods:
+      WithFeedback:
+      WithFeedforward:
+        overloads:
+          const wpi::math::ArmFeedforward&, ClosedLoopControllerSlot:
+          const wpi::math::ElevatorFeedforward&, ClosedLoopControllerSlot:
+          const wpi::math::SimpleMotorFeedforward<wpi::units::turns>&, ClosedLoopControllerSlot:
+      WithTrapezoidProfile:
+      WithLinearTrapezoidProfile:
+      WithVelocityTrapezoidProfile:
+        overloads:
+          wpi::units::turns_per_second_squared_t, wpi::units::angular_jerk::turns_per_second_cubed_t:
+          wpi::units::meters_per_second_squared_t, meters_per_second_cubed_t:
+      WithExponentialProfile:
+        overloads:
+          double, double, wpi::units::volt_t:
+          wpi::units::volt_t, wpi::math::DCMotor, wpi::units::kilogram_square_meter_t:
+          wpi::units::volt_t, wpi::math::DCMotor, wpi::units::kilogram_t, wpi::units::meter_t:
+          wpi::units::volt_t, wpi::units::turns_per_second_t, wpi::units::turns_per_second_squared_t:
+          wpi::math::ExponentialProfile<wpi::units::turns, wpi::units::volts>::Constraints:
+      WithLinearExponentialProfile:
+      WithLQR:
+      WithLinearClosedLoopController:
+      WithClosedLoopTolerance:
+        overloads:
+          wpi::units::turn_t:
+          wpi::units::meter_t:
+      WithMotorGearing:
+        overloads:
+          const gearing::MechanismGearing&:
+          double:
+      WithCascadingElevatorStages:
+      WithMechanismCircumference:
+        overloads:
+          wpi::units::meter_t:
+          wpi::units::meter_t, int:
+      WithMechanismDiameter:
+      WithMechanismRadius:
+      WithMechanismLimits:
+      WithMeasurementLimits:
+      WithStatorCurrentLimit:
+      WithSupplyCurrentLimit:
+      WithTemperatureCutoff:
+      WithClosedLoopMaxVoltage:
+      WithVoltageCompensation:
+      WithFeedbackSynchronizationThreshold:
+      WithZeroPower:
+      WithClosedLoopMode:
+      WithOpenLoopMode:
+      WithClosedLoopControlPeriod:
+      WithResetPreviousConfig:
+      WithOpenLoopRampRate:
+      WithClosedLoopRampRate:
+      WithMotorInverted:
+      WithEncoderInverted:
+      WithExternalEncoder:
+      WithUseExternalFeedbackEncoder:
+      WithExternalEncoderInverted:
+      WithExternalEncoderConversionFactor:
+      WithExternalEncoderZeroOffset:
+        overloads:
+          wpi::units::turn_t:
+          wpi::units::meter_t:
+      WithExternalEncoderGearing:
+        overloads:
+          const gearing::MechanismGearing&:
+          double:
+      WithExternalEncoderDiscontinuityPoint:
+      WithContinuousWrapping:
+      WithTelemetry:
+        overloads:
+          const std::string&, TelemetryVerbosity:
+          TelemetryVerbosity:
+          const std::string&, telemetry::SmartMotorControllerTelemetryConfig:
+            ignore: true
+      WithSubsystem:
+      WithSimMotor:
+      WithSimulationPeriod:
+      WithSimStartingPosition:
+        overloads:
+          wpi::units::degree_t:
+          wpi::units::meter_t:
+      WithSimFeedforward:
+        overloads:
+          const wpi::math::ArmFeedforward&, ClosedLoopControllerSlot:
+          const wpi::math::ElevatorFeedforward&, ClosedLoopControllerSlot:
+          const wpi::math::SimpleMotorFeedforward<wpi::units::turns>&, ClosedLoopControllerSlot:
+      WithSimClosedLoopController:
+        overloads:
+          double, double, double, ClosedLoopControllerSlot:
+          const math::LQRConfig&, ClosedLoopControllerSlot:
+      WithSimTrapezoidProfile:
+        overloads:
+          wpi::units::turns_per_second_t, wpi::units::turns_per_second_squared_t:
+          wpi::units::meters_per_second_t, wpi::units::meters_per_second_squared_t:
+      WithSimExponentialProfile:
+      WithMOI:
+        overloads:
+          wpi::units::kilogram_square_meter_t:
+          wpi::units::meter_t, wpi::units::kilogram_t:
+      WithStartingPosition:
+        overloads:
+          wpi::units::degree_t:
+          wpi::units::meter_t:
+      WithVendorConfig:
+      WithFollowers:
+      WithLooselyCoupledFollowers:
+      ClearFollowers:
+      GetFollowers:
+      GetLooselyCoupledFollowers:
+      Clone:
+      ResetValidationCheck:
+      ValidateBasicOptions:
+      ValidateExternalEncoderOptions:
+      WithVendorControlRequest:
+      GetSlotGains:
+      GetArmFeedforward:
+      GetElevatorFeedforward:
+      GetSimpleFeedforward:
+      GetLQR:
+      GetKp:
+      GetKi:
+      GetKd:
+      GetLinearClosedLoopControllerUse:
+      GetMechanismLowerLimit:
+      GetMechanismUpperLimit:
+      GetMeasurementLowerLimit:
+      GetMeasurementUpperLimit:
+      GetContinuousWrapping:
+      GetContinuousWrappingMin:
+      GetContinuousWrappingSetpoint:
+      GetStatorCurrentLimit:
+      GetStatorStallCurrentLimit:
+      GetSupplyStallCurrentLimit:
+      GetSupplyCurrentLimit:
+      GetTemperatureCutoff:
+      GetClosedLoopControllerMaximumVoltage:
+      GetVoltageCompensation:
+      GetFeedbackSynchronizationThreshold:
+      GetClosedLoopTolerance:
+      GetResetPreviousConfig:
+      GetMotorControllerMode:
+      GetZeroPower:
+      GetClosedLoopControlPeriod:
+      GetOpenLoopRampRate:
+      GetClosedLoopRampRate:
+      GetMotorInverted:
+      GetEncoderInverted:
+      GetVelocityTrapezoidalProfileInUse:
+      GetTelemetryName:
+      GetVerbosity:
+      GetSubsystem:
+      HasSubsystem:
+      GetSmartControllerTelemetryConfig:
+        ignore: true
+      GetSimMotor:
+      GetSimulationPeriod:
+      GetMOI:
+      GetStartingPosition:
+      GetVendorConfig:
+      GetVendorControlRequest:
+      GetMotorGearing:
+      GetMechanismCircumference:
+      GetExternalEncoder:
+      GetUseExternalFeedback:
+      GetExternalEncoderInverted:
+      GetExternalEncoderConversionFactor:
+      GetExternalEncoderZeroOffset:
+      GetExternalEncoderGearing:
+      GetExternalEncoderDiscontinuityPoint:
+      HasTrapezoidProfile:
+      HasExponentialProfile:
+      HasLinearExponentialProfile:
+      GetTrapezoidProfile:
+      GetLinearTrapezoidProfile:
+      GetExponentialProfile:
+      GetLinearExponentialProfile:
+      GetTrapMaxVelocityTurns:
+      GetTrapMaxAccelTurns:
+      GetTrapMaxVelocityLinear:
+      GetTrapMaxAccelLinear:
+      GetExponentialProfileKV:
+      GetExponentialProfileKA:
+      GetExponentialProfileMaxInput:
+      ConvertFromMechanism:
+        overloads:
+          wpi::units::turn_t [const]:
+          wpi::units::turns_per_second_t [const]:
+          wpi::units::turns_per_second_squared_t [const]:
+          wpi::units::angular_jerk::turns_per_second_cubed_t [const]:
+      ConvertToMechanism:
+        overloads:
+          wpi::units::meter_t [const]:
+          wpi::units::meters_per_second_t [const]:
+          wpi::units::meters_per_second_squared_t [const]:
+          meters_per_second_cubed_t [const]:
+      ConvertToVoltage:
+      ConvertToCurrent:
+  yams::motorcontrollers::SmartMotorControllerConfig::PIDGains:
+    attributes:
+      kP:
+      kI:
+      kD:
+      kS:
+      kV:
+      kA:
+      kG:
+      armFF:
+      elevatorFF:
+      simpleFF:
+      lqr:

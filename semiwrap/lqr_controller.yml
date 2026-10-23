@@ -1,0 +1,17 @@
+classes:
+  yams::math::LQRController:
+    methods:
+      LQRController:
+      UpdateConfig:
+      Reset:
+        overloads:
+          wpi::units::radian_t, wpi::units::radians_per_second_t:
+          wpi::units::meter_t, wpi::units::meters_per_second_t:
+      Calculate:
+        overloads:
+          wpi::units::radian_t, wpi::units::radian_t, wpi::units::radians_per_second_t:
+          wpi::units::meter_t, wpi::units::meter_t, wpi::units::meters_per_second_t:
+          wpi::units::radians_per_second_t, wpi::units::radians_per_second_t:
+          wpi::units::meters_per_second_t, wpi::units::meters_per_second_t:
+      GetType:
+      GetConfig:

@@ -1,0 +1,28 @@
+classes:
+  yams::mechanisms::config::ElevatorConfig:
+    methods:
+      ElevatorConfig:
+      WithTelemetryName:
+      WithMinimumHeight:
+      WithMaximumHeight:
+      WithCarriageMass:
+      WithIsHorizontal:
+      WithSimColor:
+      WithAngle:
+      WithStages:
+        overloads:
+          Heights...:
+            ignore: true
+          std::vector<wpi::units::meter_t>:
+      WithMechanismPositionConfig:
+      GetTelemetryName:
+      GetMinHeight:
+      GetMaxHeight:
+      GetCarriageMass:
+      IsHorizontal:
+      GetSimColor:
+      GetAngle:
+      GetStages:
+      GetStageHeights:
+      GetStageHeightTotal:
+      GetMechanismPositionConfig:

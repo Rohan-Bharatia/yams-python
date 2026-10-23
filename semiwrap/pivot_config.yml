@@ -1,0 +1,14 @@
+classes:
+  yams::mechanisms::config::PivotConfig:
+    methods:
+      PivotConfig:
+      WithTelemetryName:
+      WithMinAngle:
+      WithMaxAngle:
+      WithSimColor:
+      WithMechanismPositionConfig:
+      GetTelemetryName:
+      GetMinAngle:
+      GetMaxAngle:
+      GetSimColor:
+      GetMechanismPositionConfig:

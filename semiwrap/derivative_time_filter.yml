@@ -1,0 +1,11 @@
+classes:
+  yams::math::DerivativeTimeFilter:
+    methods:
+      DerivativeTimeFilter:
+        overloads:
+          double, wpi::units::second_t:
+          wpi::units::second_t:
+      Derivative:
+        overloads:
+          double, wpi::units::second_t:
+          double:

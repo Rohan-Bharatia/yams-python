@@ -1,0 +1,19 @@
+extra_includes:
+  - yams/motorcontrollers/SmartMotorController.hpp
+classes:
+  yams::telemetry::MechanismTelemetry:
+    methods:
+      SetupTelemetry:
+        overloads:
+          const std::string&, motorcontrollers::SmartMotorController&:
+          const std::string&:
+          const std::string&, const std::string&:
+      AddMotorController:
+      PublishDouble:
+      PublishStruct:
+        ignore: true
+      PublishStructArray:
+        ignore: true
+      UpdateLoopTime:
+      GetDataTable:
+      GetTuningTable:

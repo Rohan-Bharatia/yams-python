@@ -1,0 +1,12 @@
+classes:
+  yams::mechanisms::config::FlyWheelConfig:
+    methods:
+      FlyWheelConfig:
+      WithTelemetryName:
+      WithRollerDiameter:
+      WithSimColor:
+      WithMechanismPositionConfig:
+      GetTelemetryName:
+      GetRollerDiameter:
+      GetSimColor:
+      GetMechanismPositionConfig:

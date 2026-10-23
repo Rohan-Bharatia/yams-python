@@ -1,0 +1,34 @@
+---
+
+classes:
+  yams::mechanisms::swerve::SwerveModule:
+    ignore: true
+    methods:
+      SwerveModule:
+        overloads:
+          "":
+            ignore: false
+          "+yams::mechanisms::config::SwerveModuleConfig":
+            ignore: false
+      addDashboardWidgets:
+      close:
+      getAbsoluteEncoder:
+      getAngleMotor:
+      getAngleMotorSimSupplier:
+      getDriveMotor:
+      getDriveMotorSimSupplier:
+      getModuleState:
+      getModuleTelemetry:
+      getPosition:
+      getRawModuleState:
+      getSimAngleMotorVoltage:
+      getSimDriveMotorVoltage:
+      getTelemetryName:
+      initSendable:
+      periodic:
+      pushOffsetsToControllers:
+      setDesiredState:
+      setState:
+      setupPathPlanner:
+      simIterate:
+      updateInputs:

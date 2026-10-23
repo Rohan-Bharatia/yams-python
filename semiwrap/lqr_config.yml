@@ -1,0 +1,58 @@
+extra_includes:
+  - pybind11/stl.h
+  - vector
+  - initializer_list
+  - yams/python/il_helpers.hpp
+
+classes:
+  yams::math::LQRConfig:
+    enums:
+      LQRType:
+    methods:
+      WithType:
+      WithFlywheelSystem:
+      WithArmSystem:
+      WithElevatorSystem:
+      WithQElems:
+        cpp_code: |
+          [](yams::math::LQRConfig& self, const std::vector<double>& qElems) -> yams::math::LQRConfig& {
+            return yams::python::call_with_il(
+                [&self](std::initializer_list<double> il) -> yams::math::LQRConfig& {
+                  return self.WithQElems(il);
+                },
+                qElems);
+          }
+      WithRElems:
+        cpp_code: |
+          [](yams::math::LQRConfig& self, const std::vector<double>& rElems) -> yams::math::LQRConfig& {
+            return yams::python::call_with_il(
+                [&self](std::initializer_list<double> il) -> yams::math::LQRConfig& {
+                  return self.WithRElems(il);
+                },
+                rElems);
+          }
+      WithStateStdDevs:
+        cpp_code: |
+          [](yams::math::LQRConfig& self, const std::vector<double>& stateStdDevs) -> yams::math::LQRConfig& {
+            return yams::python::call_with_il(
+                [&self](std::initializer_list<double> il) -> yams::math::LQRConfig& {
+                  return self.WithStateStdDevs(il);
+                },
+                stateStdDevs);
+          }
+      WithMeasurementStdDevs:
+        cpp_code: |
+          [](yams::math::LQRConfig& self, const std::vector<double>& measStdDevs) -> yams::math::LQRConfig& {
+            return yams::python::call_with_il(
+                [&self](std::initializer_list<double> il) -> yams::math::LQRConfig& {
+                  return self.WithMeasurementStdDevs(il);
+                },
+                measStdDevs);
+          }
+      WithMaxVoltage:
+      WithPeriod:
+      GetType:
+      GetPeriod:
+      GetMaxVoltage:
+      GetSystem:
+      GetLoop:

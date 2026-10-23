@@ -1,0 +1,32 @@
+extra_includes:
+  - pybind11/stl.h
+  - vector
+  - yams/exceptions.hpp
+
+classes:
+  yams::math::SmartMath:
+    methods:
+      SensorToMechanismRatio:
+        cpp_code: |
+          [](const std::vector<double>& stages) {
+            if (stages.empty()) {
+              throw yams::exceptions::NoStagesGivenException{};
+            }
+            double ratio = 1.0;
+            for (double stage : stages) {
+              ratio *= stage;
+            }
+            return ratio;
+          }
+      GearBox:
+        cpp_code: |
+          [](const std::vector<double>& stages) {
+            if (stages.empty()) {
+              throw yams::exceptions::NoStagesGivenException{};
+            }
+            double ratio = 1.0;
+            for (double stage : stages) {
+              ratio *= stage;
+            }
+            return ratio;
+          }

@@ -1,0 +1,31 @@
+extra_includes:
+  - yams/motorcontrollers/SmartMotorController.hpp
+classes:
+  yams::motorcontrollers::simulation::ArmSimSupplier:
+    base_qualnames:
+      SimSupplier: yams::motorcontrollers::SimSupplier
+    methods:
+      ArmSimSupplier:
+      UpdateSim:
+      GetUpdatedSim:
+      FeedUpdateSim:
+      StarveUpdateSim:
+      IsInputFed:
+      FeedInput:
+      StarveInput:
+      SetMechanismStatorDutyCycle:
+      GetMechanismSupplyVoltage:
+      GetMechanismStatorVoltage:
+      SetMechanismStatorVoltage:
+      GetMechanismPosition:
+      GetMechanismVelocity:
+      GetMechanismAcceleration:
+      GetRotorPosition:
+      GetRotorVelocity:
+      GetRotorAcceleration:
+      SetMechanismPosition:
+      SetMechanismVelocity:
+      SetRotorPosition:
+      SetRotorVelocity:
+      GetStatorCurrent:
+      GetSupplyCurrent:

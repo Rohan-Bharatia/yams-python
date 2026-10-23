@@ -1,0 +1,13 @@
+---
+
+classes:
+  yams::telemetry::SwerveModuleTelemetry:
+    ignore: true
+    methods:
+      SwerveModuleTelemetry:
+      SetupTelemetry:
+        ignore: true
+      Publish:
+        ignore: true
+      Periodic:
+      Flush:

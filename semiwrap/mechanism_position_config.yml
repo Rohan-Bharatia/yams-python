@@ -1,0 +1,18 @@
+classes:
+  yams::mechanisms::config::MechanismPositionConfig:
+    enums:
+      Plane:
+    methods:
+      MechanismPositionConfig:
+      WithRelativePosition:
+        overloads:
+          const wpi::math::Translation3d&:
+          const wpi::math::Transform3d&:
+      WithMovementPlane:
+      WithParent:
+      GetRelativePosition:
+      GetMovementPlane:
+      GetMountPose:
+      GetRotatedPose:
+      GetTranslatedPose:
+      RotationInPlane:

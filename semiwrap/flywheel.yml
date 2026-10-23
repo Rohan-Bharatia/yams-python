@@ -1,0 +1,34 @@
+extra_includes:
+  - yams/motorcontrollers/SmartMotorController.hpp
+classes:
+  yams::mechanisms::velocity::FlyWheel:
+    methods:
+      FlyWheel:
+      SimIterate:
+      UpdateTelemetry:
+      VisualizationUpdate:
+      GetName:
+      Max:
+      Min:
+      GetVelocity:
+      Run:
+        overloads:
+          wpi::units::degrees_per_second_t:
+          std::function<wpi::units::degrees_per_second_t ()>:
+          wpi::units::meters_per_second_t:
+          std::function<wpi::units::meters_per_second_t ()>:
+      RunTo:
+        overloads:
+          wpi::units::degrees_per_second_t, wpi::units::degrees_per_second_t:
+          std::function<wpi::units::degrees_per_second_t ()>, wpi::units::degrees_per_second_t:
+          wpi::units::meters_per_second_t, wpi::units::meters_per_second_t:
+          std::function<wpi::units::meters_per_second_t ()>, wpi::units::meters_per_second_t:
+      Gte:
+      Lte:
+      Between:
+      IsNear:
+      SetVelocity:
+      SetSurfaceSpeed:
+      SetMeasurementVelocitySetpoint:
+      GetPose3d:
+      GetConfig:

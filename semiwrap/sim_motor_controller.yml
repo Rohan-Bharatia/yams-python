@@ -1,0 +1,12 @@
+classes:
+  yams::python::SimMotorController:
+    base_qualnames:
+      motorcontrollers::SmartMotorController: yams::motorcontrollers::SmartMotorController
+    methods:
+      SimMotorController:
+      GetDCMotor:
+        ignore: true
+      SetZeroPower:
+        ignore: true
+      SetClosedLoopSlot:
+        ignore: true

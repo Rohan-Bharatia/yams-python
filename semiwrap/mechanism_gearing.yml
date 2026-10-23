@@ -1,0 +1,13 @@
+classes:
+  yams::gearing::MechanismGearing:
+    attributes:
+      kOne:
+    methods:
+      MechanismGearing:
+        overloads:
+          double:
+          const GearBox&:
+          const GearBox&, const Sprocket&:
+      GetRotorToMechanismRatio:
+      GetMechanismToRotorRatio:
+      Div:

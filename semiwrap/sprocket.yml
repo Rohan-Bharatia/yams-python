@@ -1,0 +1,23 @@
+extra_includes:
+  - pybind11/stl.h
+  - vector
+
+classes:
+  yams::gearing::Sprocket:
+    methods:
+      Sprocket:
+        overloads:
+          double:
+          std::initializer_list<double>:
+            ignore: true
+          const std::vector<double>&:
+          const std::vector<std::string>&:
+      FromStages:
+        cpp_code: |
+          [](const std::vector<std::string>& stages) {
+            return yams::gearing::Sprocket(stages);
+          }
+      Times:
+      Div:
+      GetInputToOutputConversionFactor:
+      GetOutputToInputConversionFactor:

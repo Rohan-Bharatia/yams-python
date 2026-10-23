@@ -1,0 +1,54 @@
+extra_includes:
+  - yams/motorcontrollers/SmartMotorController.hpp
+enums:
+  DoubleTelemetryField:
+  BooleanTelemetryField:
+classes:
+  yams::telemetry::UnsupportedTelemetryFields:
+    attributes:
+      boolFields:
+      doubleFields:
+  yams::telemetry::DoubleTelemetry:
+    ignore: true
+    methods:
+      DoubleTelemetry:
+      SetDefaultValue:
+      SetupNetworkTables:
+      SetupNetworkTable:
+      SetupDataLog:
+      TransformUnit:
+      Set:
+      Get:
+      IsTunable:
+      Enable:
+      Disable:
+      Display:
+      GetField:
+      IsEnabled:
+      Close:
+  yams::telemetry::BooleanTelemetry:
+    ignore: true
+    methods:
+      BooleanTelemetry:
+      SetDefaultValue:
+      SetupNetworkTables:
+      SetupNetworkTable:
+      SetupDataLog:
+      Set:
+      Get:
+      ForceSet:
+      IsTunable:
+      Enable:
+      Disable:
+      Display:
+      GetField:
+      IsEnabled:
+      Close:
+  yams::telemetry::SmartMotorControllerTelemetry:
+    methods:
+      SetupTelemetry:
+        ignore: true
+      Publish:
+      ApplyTuningValues:
+      TuningEnabled:
+      Close:

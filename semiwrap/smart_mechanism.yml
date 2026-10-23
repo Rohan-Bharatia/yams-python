@@ -1,0 +1,33 @@
+extra_includes:
+  - yams/motorcontrollers/SmartMotorController.hpp
+classes:
+  yams::mechanisms::SmartMechanism:
+    attributes:
+      m_subsystem:
+      m_smc:
+      m_mechanismWindow:
+    methods:
+      SmartMechanism:
+      SimIterate:
+      UpdateTelemetry:
+      VisualizationUpdate:
+      GetName:
+      GetPose3d:
+      Set:
+        overloads:
+          double:
+          std::function<double ()>:
+      SetVoltage:
+        overloads:
+          wpi::units::volt_t:
+          std::function<wpi::units::volt_t ()>:
+      SetMechanismVelocitySetpoint:
+      SetMeasurementVelocitySetpoint:
+      SetMechanismPositionSetpoint:
+      SetMeasurementPositionSetpoint:
+      SetVoltageSetpoint:
+      SetDutyCycleSetpoint:
+      GetMotorController:
+      GetMechanismSetpoint:
+      GetMeasurementSetpoint:
+      GetMechanismWindow:

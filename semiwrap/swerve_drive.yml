@@ -1,0 +1,65 @@
+---
+
+classes:
+  yams::mechanisms::swerve::SwerveDrive:
+    ignore: true
+    attributes:
+      kDriveKinematics:
+        ignore: true
+    methods:
+      SwerveDrive:
+      SwerveDrive:
+        overloads:
+          "":
+            ignore: false
+          "+frc::SwerveDriveKinematics":
+            ignore: false
+          "+frc::SwerveDriveKinematics+std::vector<yams::module::SwerveModule>":
+            ignore: false
+          "+frc::SwerveDriveKinematics+std::vector<yams::module::SwerveModule>+std::function<void(frc::SwerveModuleState&)>":
+            ignore: false
+          "+frc::SwerveDriveKinematics+std::vector<std::shared_ptr<yams::module::SwerveModule>>":
+            ignore: false
+          "+frc::SwerveDriveKinematics+std::vector<std::shared_ptr<yams::module::SwerveModule>>+std::function<void(frc::SwerveModuleState&)>":
+            ignore: false
+      addDashboardWidgets:
+      close:
+      drive:
+      driveRobotOriented:
+      getGyro:
+      getHeading:
+      getKinematics:
+      getMaximumChassisAngularVelocity:
+      getMaximumChassisVelocity:
+      getModules:
+      getNumModules:
+      getOdometry:
+      getOdometryThread:
+      getPose:
+      getRawGyroXYZ:
+      getSimDriveMotorVoltage:
+      getSimSteerMotorVoltage:
+      getSwerveController:
+      getSwerveDriveConfiguration:
+      getSwerveDriveSimulation:
+      getSwerveTelemetery:
+        rename: getSwerveTelemetry
+      initSendable:
+      lockPose:
+      periodic:
+      pushOffsetsToControllers:
+      removeModule:
+      replaceSwerveModule:
+      resetOdometry:
+      setCosineCompensator:
+      setHeadingCorrection:
+      setMotorIdleMode:
+      setModuleEncoderAutoSynchronize:
+      setName:
+      setPose:
+      setupPathPlanner:
+      simIterate:
+      stopOdometryThread:
+      stopSwerve:
+      tankDrive:
+      updateInputs:
