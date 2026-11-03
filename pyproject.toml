@@ -1,11 +1,11 @@
 [build-system]
 requires = [
-    "semiwrap==0.7.2",
+    "semiwrap==0.8.0",
     "hatch-meson>=0.1.3",
-    "hatchling>=1.27",
-    "patchelf>=0.19.1.0; sys_platform == 'linux'",
+    "hatchling>=1.32.4",
+    "patchelf>=0.17; sys_platform == 'linux'",
     "pybind11",
-    "pybind11-stubgen>=2.5",
+    "pybind11-stubgen>=3.0.0",
 ]
 build-backend = "hatchling.build"
 
@@ -40,7 +40,7 @@ Homepage = "https://github.com/Rohan-Bharatia/yams-python"
 Source = "https://github.com/Rohan-Bharatia/yams-python"
 
 [project.optional-dependencies]
-test = ["pytest>=8"]
+test = ["pytest>=9.1.1"]
 
 #
 # Build hooks
