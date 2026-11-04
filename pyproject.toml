@@ -40,7 +40,7 @@ Homepage = "https://github.com/Rohan-Bharatia/yams-python"
 Source = "https://github.com/Rohan-Bharatia/yams-python"
 
 [project.optional-dependencies]
-test = ["pytest>=9.1.1"]
+test = ["pytest>=9.2.0"]
 
 #
 # Build hooks
