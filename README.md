@@ -7,6 +7,7 @@ built with [Semi-wrap](https://github.com/robotpy/semiwrap),
 [pybind11](https://pybind11.readthedocs.io) and Meson.
 
 [![CI](https://github.com/Rohan-Bharatia/yams-python/actions/workflows/ci.yml/badge.svg)](https://github.com/Rohan-Bharatia/yams-python/actions/workflows/ci.yml)
+[![CodeQL](https://github.com/Rohan-Bharatia/yams-python/actions/workflows/codeql.yml/badge.svg)](https://github.com/Rohan-Bharatia/yams-python/actions/workflows/codeql.yml)
 [![Python 3.14](https://img.shields.io/badge/Python-3.14-blue.svg)](./.python-version)
 [![License: GLGPL3](https://img.shields.io/badge/License-GLGPL3-yellow.svg)](./LICENSE)
 
