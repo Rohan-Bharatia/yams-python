@@ -6,6 +6,10 @@ Python bindings for [YAMS (Yet Another Mechanism System)](https://github.com/Yet
 built with [Semi-wrap](https://github.com/robotpy/semiwrap),
 [pybind11](https://pybind11.readthedocs.io) and Meson.
 
+[![CI](https://github.com/Rohan-Bharatia/yams-python/actions/workflows/ci.yml/badge.svg)](https://github.com/Rohan-Bharatia/yams-python/actions/workflows/ci.yml)
+[![Python 3.14](https://img.shields.io/badge/Python-3.14-blue.svg)](./.python-version)
+[![License: GLGPL3](https://img.shields.io/badge/License-GLGPL3-yellow.svg)](./LICENSE)
+
 </div>
 
 ## Overview
@@ -139,11 +143,11 @@ cpp/ (adapters, type casters, module entry point)
         └── Meson + Ninja ──> yams._yams extension ──> yams package ──> wheel
 ```
 
-- `pyproject.toml` configures hatchling with three hooks: `custom`
+- [`pyproject.toml`](./pyproject.toml) configures hatchling with three hooks: `custom`
   ([`hatch_build.py`](hatch_build.py)) fetches WPILib and polishes the wheel,
   `semiwrap` generates the bindings, and `meson` compiles the extension.
-- `semiwrap/*.yml` is the source of truth for the exposed API.
-- `cpp/` contains only binding glue: the `SimMotorController` adapter,
+- [`semiwrap/*.yml`](./semiwrap/) is the source of truth for the exposed API.
+- [`cpp/`](./cpp/) contains only binding glue: the `SimMotorController` adapter,
   `SimSubsystem`, unit type casters, and the `std::initializer_list` helper.
 - `vendor/YAMS` is pinned to `v2026.10.19`
   (`48085344887361058a25661aea57031cedea0d21`); `vendor/semiwrap` is pinned to
@@ -229,7 +233,7 @@ vendor libraries.
 ## License
 
 The bindings are distributed under LGPL-3.0-or-later, matching YAMS. See
-[`LICENSE`](LICENSE) and [`THIRD_PARTY_NOTICES.md`](THIRD_PARTY_NOTICES.md) for
+[`LICENSE`](./LICENSE) and [`THIRD_PARTY_NOTICES.md`](./THIRD_PARTY_NOTICES.md) for
 WPILib, pybind11, and Semi-wrap attribution.
 
 ## Links
@@ -244,7 +248,7 @@ WPILib, pybind11, and Semi-wrap attribution.
 ## Cross-platform support
 
 - **Linux x86_64, Linux aarch64**: Supported via WPILib static libraries
-- **macOS (Intel/Apple Silicon, osxuniversal)**: Supported via WPILib universal static libraries  
+- **macOS (Intel/Apple Silicon, osxuniversal)**: Supported via WPILib universal static libraries
 - **Windows (x86_64)**: Supported via WPILib static libraries
 
 Python versions 3.12, 3.13, and 3.14 are supported. Use `YAMS_WPILIB_PLATFORM` to override platform detection if needed.
@@ -254,7 +258,7 @@ Python versions 3.12, 3.13, and 3.14 are supported. Use `YAMS_WPILIB_PLATFORM` t
 The following vendor motor controllers are supported via their native libraries:
 
 - **CTRE Phoenix 6** (TalonFX, TalonFXS) - via `ctre::phoenix6` API
-- **REV Robotics** (SPARK MAX, SPARK Flex) - via `rev` API  
+- **REV Robotics** (SPARK MAX, SPARK Flex) - via `rev` API
 - **ThriftyBot ThriftyLib/Nova** - via `thrifty` API
 
 These require the respective vendor libraries to be installed. See the YAMS documentation for details.
