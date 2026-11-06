@@ -26,6 +26,7 @@ import hashlib
 import os
 import platform
 import shutil
+import stat
 import subprocess
 import sys
 import tarfile
@@ -54,22 +55,29 @@ ARTIFACTS = (
     "tunables",
 )
 
-#: Maps ``(sys.platform, machine)`` onto the artifact platform tag.
+#: Maps ``(sys.platform, machine.lower())`` onto the artifact platform tag.
+#: ``platform.machine()`` reports ``"AMD64"`` on 64-bit Windows and
+#: ``"x86_64"`` on Linux/macOS, hence the lower-casing in :func:`platform_tag`.
 PLATFORM_TAGS = {
     ("linux", "x86_64"): "linuxx86-64",
+    ("linux", "amd64"): "linuxx86-64",
     ("linux", "aarch64"): "linuxarm64",
     ("linux", "arm64"): "linuxarm64",
     ("darwin", "x86_64"): "osxuniversal",
+    ("darwin", "amd64"): "osxuniversal",
     ("darwin", "arm64"): "osxuniversal",
     ("win32", "x86_64"): "windowsx86-64",
     ("win32", "amd64"): "windowsx86-64",
-    ("win32", "ARM64"): "windowsarm64",
+    ("win32", "arm64"): "windowsarm64",
     ("cygwin", "x86_64"): "windowsx86-64",
+    ("cygwin", "amd64"): "windowsx86-64",
     ("msys", "x86_64"): "windowsx86-64",
+    ("msys", "amd64"): "windowsx86-64",
 }
 
-#: Pinned SHA-256 digests of the downloaded archives.  Keyed by
-#: ``(artifact, kind, platform tag)``.
+#: Pinned SHA-256 digests of the downloaded archives.  Header archives are
+#: keyed by ``(artifact, "headers")``, library archives by
+#: ``(artifact, platform tag)``.
 CHECKSUMS = {
     ("wpiutil", "headers"): "d2a90dc91b34f15af97921e058ab52540dd0876400969650ae33783ff314f7b7",
     ("wpimath", "headers"): "3d7ff6a561655238e6b5ff9d0ab26c202922f6e7f4ea3189d23e67dfea8a6dc6",
@@ -126,7 +134,7 @@ CHECKSUMS = {
 
 def platform_tag() -> str:
     """Return the WPILib artifact tag for the current interpreter."""
-    key = (sys.platform, platform.machine())
+    key = (sys.platform, platform.machine().lower())
     try:
         return PLATFORM_TAGS[key]
     except KeyError:
@@ -173,6 +181,58 @@ def download(url: str, dest: Path, expect: str | None) -> None:
     tmp.replace(dest)
 
 
+def _checked_target(root: Path, name: str) -> Path:
+    """Return ``root / name``, refusing absolute paths and directory traversal.
+
+    Archive member names are attacker controlled as far as this script is
+    concerned: a malicious or corrupted archive must never be able to write
+    outside the extraction directory (zip-slip / tar-slip).
+    """
+    if not name or name.startswith(("/", "\\")) or (len(name) > 1 and name[1] == ":"):
+        raise SystemExit(f"refusing to extract unsafe archive member: {name!r}")
+    target = (root / name).resolve()
+    if not target.is_relative_to(root.resolve()):
+        raise SystemExit(
+            f"refusing to extract archive member outside {root}: {name!r}"
+        )
+    return target
+
+
+def _extract_zip(archive: Path, dest: Path) -> list[str]:
+    """Safely extract a zip archive, returning the member names.
+
+    Every member is validated and written explicitly; ``ZipFile.extractall``
+    is deliberately not used so a crafted archive cannot follow a path out of
+    ``dest`` or install a symlink.
+    """
+    with zipfile.ZipFile(archive) as zf:
+        infos = zf.infolist()
+        for info in infos:
+            target = _checked_target(dest, info.filename)
+            if stat.S_ISLNK(info.external_attr >> 16):
+                raise SystemExit(
+                    f"refusing to extract symlink from {archive.name}: "
+                    f"{info.filename!r}"
+                )
+            if info.is_dir():
+                target.mkdir(parents=True, exist_ok=True)
+                continue
+            target.parent.mkdir(parents=True, exist_ok=True)
+            with zf.open(info) as source, target.open("wb") as sink:
+                shutil.copyfileobj(source, sink)
+        return [info.filename for info in infos]
+
+
+def _extract_tar(archive: Path, dest: Path) -> None:
+    """Safely extract a gzipped tarball."""
+    with tarfile.open(archive) as tf:
+        for member in tf.getmembers():
+            _checked_target(dest, member.name)
+        # The "data" filter additionally rejects device files, links and
+        # other members that are unsafe to extract.
+        tf.extractall(dest, filter="data")
+
+
 def extract(archive: Path, dest: Path, licenses: Path) -> None:
     """Extract ``archive`` into ``dest``.
 
@@ -184,21 +244,23 @@ def extract(archive: Path, dest: Path, licenses: Path) -> None:
     dest.mkdir(parents=True, exist_ok=True)
     licenses.mkdir(parents=True, exist_ok=True)
     if archive.suffix == ".zip":
-        with zipfile.ZipFile(archive) as zf:
-            zf.extractall(dest)
-            for name in zf.namelist():
-                if name.endswith(("LICENSE.md", "ThirdPartyNotices.txt")):
-                    target = licenses / f"{archive.name[:-4]}-{Path(name).name}"
-                    shutil.copyfile(dest / name, target)
+        names = _extract_zip(archive, dest)
+        for name in names:
+            if name.endswith(("LICENSE.md", "ThirdPartyNotices.txt")):
+                target = licenses / f"{archive.name[:-4]}-{Path(name).name}"
+                shutil.copyfile(dest / name, target)
     elif archive.suffixes[-2:] == [".tar", ".gz"]:
-        with tarfile.open(archive) as tf:
-            tf.extractall(dest)
+        _extract_tar(archive, dest)
     else:  # pragma: no cover - defensive
         raise SystemExit(f"unsupported archive format: {archive}")
 
-    for lib in dest.rglob("*.a"):
-        if lib.parent != dest:
-            shutil.move(str(lib), str(dest / lib.name))
+    # The archives place the libraries below a platform specific directory
+    # (``linux/x86-64/static``, ``windows/x86-64/static``, ...).  Flatten both
+    # the Unix (``.a``) and the MSVC (``.lib``) archives into ``dest``.
+    for pattern in ("*.a", "*.lib"):
+        for lib in dest.rglob(pattern):
+            if lib.parent != dest:
+                shutil.move(str(lib), str(dest / lib.name))
 
 
 def strip_archives(libdir: Path) -> None:
@@ -207,7 +269,12 @@ def strip_archives(libdir: Path) -> None:
     The upstream archives are built with debug information, which makes them
     roughly 40x larger.  The debug information is not needed to link against
     them, so it is stripped in place.
+
+    Only ELF archives are stripped.  GNU objcopy cannot read the Mach-O
+    archives used on macOS, and the MSVC toolchain has no objcopy at all.
     """
+    if sys.platform != "linux":
+        return
     objcopy = shutil.which("objcopy")
     if objcopy is None:
         print("  objcopy not found, keeping archives as-is", file=sys.stderr)

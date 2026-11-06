@@ -57,9 +57,11 @@ Do not edit files inside the submodules. Project-specific C++ code belongs in
 
 ## Semi-wrap workflow
 
-The installed Semi-wrap version is 0.7.2. The YAML files under `semiwrap/` are
-the source of truth for the bindings. After changing a YAML file or adding a
-header, regenerate the Meson files from the repository root:
+The build installs Semi-wrap 0.8.1 (see `pyproject.toml`); the vendored copy
+under `vendor/semiwrap` (0.7.2) is only used by the manual regeneration recipe
+below. The YAML files under `semiwrap/` are the source of truth for the
+bindings. After changing a YAML file or adding a header, regenerate the Meson
+files from the repository root:
 
 ```bash
 SEMIWRAP_SKIP_PYI=1 .venv/bin/python -c "

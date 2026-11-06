@@ -5,7 +5,8 @@ requires = [
     "hatchling>=1.33.0",
     "patchelf>=0.19.1.0; sys_platform == 'linux'",
     "pybind11",
-    "pybind11-stubgen>=3.0.0",
+    # semiwrap 0.8.1 requires pybind11-stubgen ~=2.5.1; keep the two in sync.
+    "pybind11-stubgen~=2.5.1",
 ]
 build-backend = "hatchling.build"
 
@@ -57,15 +58,23 @@ path = "hatch_build.py"
 [tool.hatch.build.hooks.semiwrap]
 
 [tool.hatch.build.hooks.meson]
-# The extension module and the bundled WPILib shared libraries are installed
-# into the "platlib" directory of the wheel.
-args = { setup = [], compile = [], install = [] }
+# The extension module is installed into the "platlib" directory of the
+# wheel; WPILib itself is linked statically and is not shipped separately.
+#
+# hatch_build.py writes this native file before Meson is configured; it sets
+# cpp_std to the spelling the compiler accepts ("c++latest" on MSVC,
+# "c++23" elsewhere). hatch-meson runs Meson from the build directory
+# (build/<abi tag> by default), hence the relative path.
+#
+# The generated wrappers are template-heavy; cap the parallel compile jobs so
+# the build does not exhaust the memory of the smaller CI runners.
+args = { setup = ["--native-file=../meson-cppstd.ini"], compile = ["-j2"], install = [] }
 
 [tool.hatch.build.targets.wheel]
 packages = ["yams"]
 # The extension module is installed by meson and copied into the package by
 # hatch-meson; it must not be picked up twice by the package file walk.
-exclude = ["*.so"]
+exclude = ["*.so", "*.pyd"]
 
 [tool.hatch.build.targets.sdist]
 include = [

@@ -68,15 +68,22 @@ development, testing and simulation.
 
 | Platform | Status |
 | --- | --- |
-| Linux x86-64 | Built, tested, and covered by CI |
-| Linux aarch64 | Not supported by the pinned native-dependency checksums |
-| macOS | Not built or verified |
-| Windows | Not built or verified |
+| Linux x86-64 | Built and tested locally and in CI |
+| Linux aarch64 | Not built or verified |
+| macOS (Apple Silicon) | Covered by CI; not verified locally |
+| Windows x86-64 | Covered by CI; not verified locally |
+
+The native archives are pinned and verified for Linux x86-64/arm64, macOS, and
+Windows x86-64. The link arguments are selected per platform in `meson.build`:
+GNU ld archives are grouped on Linux, the Mach-O archives are listed on macOS,
+and the MSVC import libraries are linked by path on Windows. The macOS archives
+are universal; CI exercises the arm64 runner and does not build the Intel slice
+separately.
 
 The build requires a C++23 compiler, Meson, Ninja, and network access to the
 WPILib Maven repository the first time native dependencies are fetched.
-CPython 3.9+ is declared; the wheel and tests have been verified with CPython
-3.14 locally and CPython 3.12 in CI.
+CPython 3.12 or newer is required; the wheel and tests have been verified with
+CPython 3.14 locally, and CI targets CPython 3.12, 3.13, and 3.14.
 
 ## Installation
 
@@ -104,9 +111,9 @@ pip install dist/*.whl
 environment. To use the active environment instead:
 
 ```bash
-python -m pip install build "semiwrap==0.7.2" "hatch-meson>=0.1.3" \
-    "hatchling>=1.27" "patchelf; sys_platform == 'linux'" \
-    pybind11 "pybind11-stubgen>=2.5" meson ninja
+python -m pip install build "semiwrap==0.8.1" "hatch-meson>=0.1.3" \
+    "hatchling>=1.33.0" "patchelf; sys_platform == 'linux'" \
+    pybind11 "pybind11-stubgen~=2.5.1" meson ninja
 python -m build --wheel --no-isolation
 ```
 
@@ -221,7 +228,7 @@ vendor libraries.
 ## Known limitations
 
 - Vendor hardware controllers are not bound.
-- Only Linux x86-64 is built and tested.
+- Linux aarch64 (RoboRIO/SystemCore class targets) is not built or tested.
 - `to_robot_attitude` takes a WPILib `Rotation3d`, which this project does not
   bind, so it is only usable with a value produced by another extension.
 - `SmartMotorControllerTelemetryConfig` is not bound because it is
@@ -244,22 +251,3 @@ WPILib, pybind11, and Semi-wrap attribution.
   [documentation](https://semiwrap.readthedocs.io/en/latest/)
 - [pybind11](https://pybind11.readthedocs.io)
 - [WPILib](https://docs.wpilib.org)
-
-
-## Cross-platform support
-
-- **Linux x86_64, Linux aarch64**: Supported via WPILib static libraries
-- **macOS (Intel/Apple Silicon, osxuniversal)**: Supported via WPILib universal static libraries
-- **Windows (x86_64)**: Supported via WPILib static libraries
-
-Python versions 3.12, 3.13, and 3.14 are supported. Use `YAMS_WPILIB_PLATFORM` to override platform detection if needed.
-
-## Vendor motor controllers
-
-The following vendor motor controllers are supported via their native libraries:
-
-- **CTRE Phoenix 6** (TalonFX, TalonFXS) - via `ctre::phoenix6` API
-- **REV Robotics** (SPARK MAX, SPARK Flex) - via `rev` API
-- **ThriftyBot ThriftyLib/Nova** - via `thrifty` API
-
-These require the respective vendor libraries to be installed. See the YAMS documentation for details.

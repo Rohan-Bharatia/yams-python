@@ -19,11 +19,9 @@ jobs:
       matrix:
         os: [ubuntu-latest, macos-latest, windows-latest]
         python-version: ['3.12', '3.13', '3.14']
-        exclude:
-          - os: windows-latest
-            python-version: '3.14'
 
     runs-on: ${{ matrix.os }}
+    timeout-minutes: 90
 
     steps:
     - uses: actions/checkout@v7
@@ -35,13 +33,30 @@ jobs:
       with:
         python-version: ${{ matrix.python-version }}
 
-    - name: Install build dependencies
-      run: |
-        python -m pip install --upgrade pip
-        pip install hatch hatchling meson ninja pybind11 semiwrap robotpy-build robotpy-wpiutil robotpy-wpimath robotpy-wpinet robotpy-ntcore robotpy-hal robotpy-wpilibc robotpy-commandsv2 pybind11-stubgen pytest black
+    # All build requirements (semiwrap, hatch-meson, pybind11-stubgen, ...)
+    # are declared in pyproject.toml, so pip installs them in the isolated
+    # build environment.
+    - name: Upgrade pip
+      run: python -m pip install --upgrade pip
 
     - name: Build
+      if: runner.os != 'Windows'
       run: |
+        python -m pip install -v -e ".[test]"
+
+    # Meson needs cl.exe and the Windows SDK on PATH.  The GitHub runner ships
+    # Visual Studio but only exposes the toolchain through vcvars, and Meson
+    # may find clang first and then fail to link the MSVC archives.  vcvars
+    # only affects the current cmd session, so it is activated in the same
+    # step as the build.
+    - name: Build (Windows)
+      if: runner.os == 'Windows'
+      shell: cmd
+      run: |
+        "%ProgramFiles(x86)%\Microsoft Visual Studio\Installer\vswhere.exe" -latest -products * -requires Microsoft.VisualStudio.Component.VC.Tools.x86.x64 -property installationPath > "%RUNNER_TEMP%\vs_path.txt"
+        set /p VSPATH=<"%RUNNER_TEMP%\vs_path.txt"
+        if not defined VSPATH exit /b 1
+        call "%VSPATH%\VC\Auxiliary\Build\vcvars64.bat" || exit /b 1
         python -m pip install -v -e ".[test]"
 
     - name: Test

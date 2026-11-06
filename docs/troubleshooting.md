@@ -46,7 +46,7 @@ render_meson_to_file(root, root/'semiwrap'/'meson.build',
 
 ## Stub generation aborts with `Invalid expression 'wpi::...'`
 
-Semi-wrap 0.7.2 calls `pybind11-stubgen` with
+Semi-wrap calls `pybind11-stubgen` with
 `--ignore-invalid-expressions=<.*>`, which does not match C++ type names in
 pybind11 docstrings. Keep `SEMIWRAP_SKIP_PYI=1` set while rendering and
 compiling. The hatch build hook sets it automatically and generates stubs in
@@ -85,16 +85,25 @@ download is corrupted, use `--force` to re-download everything.
 
 ## `no pinned checksums for platform tag ...`
 
-Only the Linux x86-64 WPILib archives are pinned. Building on another platform
-currently requires adding checksums for the corresponding artifacts and
-verifying them; the script deliberately refuses to download unverified
-archives.
+The WPILib archives are pinned for Linux x86-64/arm64, macOS (universal), and
+Windows x86-64. Building on another platform (for example Windows ARM64)
+requires adding checksums for the corresponding artifacts and verifying them;
+the script deliberately refuses to download unverified archives.
 
 ## Compiler errors about C++23 or missing `std::` features
 
-Use a C++23-capable compiler and make sure the project is configured with
-`-std=c++23`. GCC 13+ or Clang 17+ is recommended. WPILib 2027 is the pinned
-dependency stack; older WPILib headers are not supported.
+Use a C++23-capable compiler: GCC 13+, Clang 17+, or a current Visual Studio
+2022. GCC and Clang are configured with `-std=c++23`; Meson's MSVC backend
+spells the same language level `/std:c++latest`, which the hatch build selects
+automatically through a generated native file. If you configure Meson by hand
+on Windows, pass it explicitly:
+
+```bat
+meson setup builddir -Dcpp_std=c++latest
+```
+
+WPILib 2027 is the pinned dependency stack; older WPILib headers are not
+supported.
 
 ## Linker errors mentioning `wpiutil`, `wpimath`, `commandsv2`, etc.
 
@@ -140,9 +149,23 @@ feedback source. An open-loop `set_duty_cycle` is the simplest way to verify
 that simulation is running.
 
 
-## Cross-platform builds
+## Platform-specific build problems
 
-- On macOS, ensure Xcode command line tools are installed
-- On Windows, use Visual Studio Build Tools with C++ support
-- For aarch64 Linux, set `YAMS_WPILIB_PLATFORM=linuxarm64` if auto-detection fails
-- Vendor motor controllers require their respective libraries to be installed in the library path
+- **Windows: `cl.exe` not found / MSVC libraries not linked.** The runner or
+  shell must activate Visual Studio first (`call vcvars64.bat`); otherwise
+  Meson may pick another compiler and fail to link the MSVC `.lib` archives.
+- **Windows: `unsupported platform` from `fetch_native_deps.py`.** 64-bit
+  Windows reports its architecture as `AMD64`; the mapping is case-insensitive,
+  so this only happens on an architecture without pinned archives (for example
+  Windows ARM64).
+- **macOS: linker errors about missing symbols.** macOS uses ld64, which reads
+  the universal `.a` archives directly; no GNU linker groups are used. Make
+  sure the native dependencies were fetched for `osxuniversal`.
+- **Linux aarch64.** Archives are pinned for `linuxarm64`, but the platform is
+  not built or tested in CI.
+- **Overriding platform detection.** Set `YAMS_WPILIB_PLATFORM` to
+  `linuxx86-64`, `linuxarm64`, `osxuniversal`, or `windowsx86-64` to select an
+  archive set explicitly (for example when cross-compiling). The chosen tag
+  must have pinned checksums.
+- Platforms whose archives are not pinned in `CHECKSUMS` are rejected instead
+  of being downloaded unverified.
