@@ -80,8 +80,9 @@ and the MSVC import libraries are linked by path on Windows. The macOS archives
 are universal; CI exercises the arm64 runner and does not build the Intel slice
 separately.
 
-The build requires a C++23 compiler, Meson, Ninja, and network access to the
-WPILib Maven repository the first time native dependencies are fetched.
+The build requires a C++23 compiler (GCC 14+, Clang 17+ with a standard
+library providing `<print>`, or current MSVC), Meson, Ninja, and network access
+to the WPILib Maven repository the first time native dependencies are fetched.
 CPython 3.12 or newer is required; the wheel and tests have been verified with
 CPython 3.14 locally, and CI targets CPython 3.12, 3.13, and 3.14.
 

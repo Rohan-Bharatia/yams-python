@@ -16,6 +16,14 @@ project(
 )
 
 fs = import('fs')
+cpp = meson.get_compiler('cpp')
+
+if cpp.get_id() == 'msvc'
+  # WPILib's Errors.hpp uses __VA_OPT__, which MSVC only expands correctly
+  # with its conforming preprocessor.  The generated pybind11 wrappers are
+  # also large enough to exceed the default object section limit.
+  add_project_arguments('/Zc:preprocessor', '/bigobj', language: 'cpp')
+endif
 
 #
 # WPILib native dependencies
@@ -174,9 +182,8 @@ subdir('semiwrap/modules')
 # CTRE Phoenix 6, REVLib, ThriftyLib may be provided by environment
 vendor_deps = []
 # Try to find libraries if compiler is available
-compiler = meson.get_compiler('cpp')
 foreach libname : ['CTRE_Phoenix6', 'CTRE_Phoenix', 'REVLib', 'REV', 'ThriftyLib', 'thriftylib']
-  l = compiler.find_library(libname, required : false)
+  l = cpp.find_library(libname, required : false)
   if l.found()
     vendor_deps += l
   endif

@@ -38,9 +38,9 @@ libraries from the WPILib Maven repository. Network access to
 
 - Linux x86-64, macOS (x86-64 or Apple Silicon), or Windows x86-64
 - CPython 3.12+ with development headers
-- A C++23-capable compiler: GCC 13+, Clang 17+, or MSVC from Visual Studio
-  2022 (on Windows, the build must run from a `vcvars64.bat` environment so
-  Meson finds `cl.exe`)
+- A C++23-capable compiler: GCC 14+, Clang 17+ (with a standard library that
+  provides `<print>`), or MSVC from Visual Studio 2022 (on Windows, the build
+  must run from a `vcvars64.bat` environment so Meson finds `cl.exe`)
 - Meson and Ninja
 - `objcopy` from binutils (Linux only, optional; used to strip debug info from
   the static WPILib archives)

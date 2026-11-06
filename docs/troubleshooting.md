@@ -92,11 +92,16 @@ the script deliberately refuses to download unverified archives.
 
 ## Compiler errors about C++23 or missing `std::` features
 
-Use a C++23-capable compiler: GCC 13+, Clang 17+, or a current Visual Studio
-2022. GCC and Clang are configured with `-std=c++23`; Meson's MSVC backend
-spells the same language level `/std:c++latest`, which the hatch build selects
-automatically through a generated native file. If you configure Meson by hand
-on Windows, pass it explicitly:
+Use a C++23-capable compiler: GCC 14+, Clang 17+ with a standard library that
+provides `<print>`, or a current Visual Studio 2022. WPILib's headers include
+`<print>` unconditionally, and libstdc++ only ships that header from GCC 14;
+Ubuntu 24.04 therefore needs `g++-14` even though its default `c++` is GCC 13.
+GCC and Clang are configured with `-std=c++23`; Meson's MSVC backend spells the
+same language level `/std:c++latest`, which the hatch build selects
+automatically through a generated native file. `meson.build` also passes
+`/Zc:preprocessor` on MSVC because the WPILib headers use `__VA_OPT__`, which
+the traditional MSVC preprocessor does not expand. If you configure Meson by
+hand on Windows, pass the options explicitly:
 
 ```bat
 meson setup builddir -Dcpp_std=c++latest

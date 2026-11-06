@@ -39,8 +39,26 @@ jobs:
     - name: Upgrade pip
       run: python -m pip install --upgrade pip
 
-    - name: Build
-      if: runner.os != 'Windows'
+    # WPILib 2027 headers unconditionally include <print>, which libstdc++
+    # only provides from GCC 14.  The ubuntu-latest image still defaults to
+    # GCC 13, so install a newer toolchain and point Meson (and semiwrap's
+    # header preprocessor, which reuses Meson's compiler) at it.
+    - name: Install C++ toolchain (Linux)
+      if: runner.os == 'Linux'
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y g++-14
+
+    - name: Build (Linux)
+      if: runner.os == 'Linux'
+      env:
+        CC: gcc-14
+        CXX: g++-14
+      run: |
+        python -m pip install -v -e ".[test]"
+
+    - name: Build (macOS)
+      if: runner.os == 'macOS'
       run: |
         python -m pip install -v -e ".[test]"
 
