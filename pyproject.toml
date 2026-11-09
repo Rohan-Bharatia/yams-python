@@ -5,8 +5,8 @@ requires = [
     "hatchling>=1.33.0",
     "patchelf>=0.19.1.0; sys_platform == 'linux'",
     "pybind11",
-    # semiwrap 0.8.1 requires pybind11-stubgen ~=2.5.1; keep the two in sync.
-    "pybind11-stubgen~=2.5.1",
+    # semiwrap 0.8.1 requires pybind11-stubgen ~=3.0.0; keep the two in sync.
+    "pybind11-stubgen~=3.0.0",
 ]
 build-backend = "hatchling.build"
 
